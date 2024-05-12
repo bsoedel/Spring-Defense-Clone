@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,21 @@ public class ObjectDragging : MonoBehaviour
     public float yLowBound = -2.5f;
     public float yHighBound = 3.5f;
     public bool[ , ] isOccupied = new bool[6, 7];
+    public int moneyAmount;
+    public TMPro.TMP_Text moneyText;
+
+    private enum TowerCost
+    {
+        Tower1 = 20,
+        Tower2 = 40,
+        Tower3 = 80
+
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        int.TryParse(moneyText.text, out moneyAmount);
+        InvokeRepeating("PassiveGoldIncome", 1.0f, 2.0f);
     }
 
     void Update()
@@ -40,10 +52,16 @@ public class ObjectDragging : MonoBehaviour
             Vector3 cellCenter = tilemap.GetCellCenterLocal(cellPosition);
             int row = (int)(cellCenter.x + 8.5);
             int col = (int)(cellCenter.y + 2.5);
-            if (cellCenter.x >= xLowBound && cellCenter.x <= xHighBound && cellCenter.y >= yLowBound && cellCenter.y <= yHighBound && !isOccupied[row, col])
+
+            TowerCost cost;
+            Enum.TryParse(draggedObject.tag, out cost);
+            if (cellCenter.x >= xLowBound && cellCenter.x <= xHighBound && cellCenter.y >= yLowBound && cellCenter.y <= yHighBound 
+                && !isOccupied[row, col]
+                && moneyAmount >= (int)cost)
             {
                 draggedObject.transform.localPosition = cellCenter + Vector3.forward;
                 isOccupied[row, col] = true;
+                moneyAmount -= (int)cost;
             }
             else
             {
@@ -56,5 +74,11 @@ public class ObjectDragging : MonoBehaviour
         {
             draggedObject.transform.position = mousePosition + Vector3.forward;
         }
+        moneyText.text = moneyAmount.ToString();
+    }
+
+    void PassiveGoldIncome()
+    {
+        moneyAmount += 5;
     }
 }
