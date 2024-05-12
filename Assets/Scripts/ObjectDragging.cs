@@ -33,8 +33,8 @@ public class ObjectDragging : MonoBehaviour
         {
             Vector3Int cellPosition = tilemap.LocalToCell(mousePosition);
             draggedObject.transform.localPosition = tilemap.GetCellCenterLocal(cellPosition) + Vector3.forward;
+            draggedObject.GetComponent<TowerController>().enabled = true;
             draggedObject = null;
-
         }
         if (draggedObject)
         {
