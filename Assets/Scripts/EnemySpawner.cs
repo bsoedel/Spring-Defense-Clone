@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("References:")]
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private Vector3[] spawnLocations;
+    [SerializeField] private GameObject canvas;
 
     [Header("Attributes")]
     [SerializeField] private int baseEnemies = 8;
@@ -16,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float diffScalingFactor = 0.75f;
 
     private int currentWave = 1;
+    private float timeSinceWave = 0;
     private float timeSinceLastSpawn;
     private int enemiesAlive;
     private int enemiesLeftToSpawn;
@@ -38,6 +40,12 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemy();
             timeSinceLastSpawn = 0f;
         }
+        Debug.Log(currentWave);
+        if (isSpawning && enemiesLeftToSpawn == 0)
+        {
+            currentWave++;
+            StartWave();
+        }
     }
 
     private void StartWave()
@@ -48,10 +56,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int enemy = Random.Range(0, enemyPrefabs.Length);
-        GameObject prefabToSpawn = enemyPrefabs[enemy];
+        int enemyType = Random.Range(0, enemyPrefabs.Length);
+        GameObject prefabToSpawn = enemyPrefabs[enemyType];
         int spawn = Random.Range(0, spawnLocations.Length);
-        Instantiate(prefabToSpawn, spawnLocations[spawn], Quaternion.identity);
+        GameObject enemy = Instantiate(prefabToSpawn, spawnLocations[spawn], Quaternion.identity);
+        GameObject healthBar = Instantiate(canvas, enemy.transform.position, enemy.transform.rotation);
+        healthBar.transform.parent = enemy.transform;
     }
 
     private int EnemiesPerWave()

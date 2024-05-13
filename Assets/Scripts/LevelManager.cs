@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
         if (!gameIsOver) return;
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("Tilemap");
+            SceneManager.LoadScene("Game");
         }
     }
 

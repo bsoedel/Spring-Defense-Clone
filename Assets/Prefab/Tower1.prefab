@@ -155,5 +155,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 3998773420411463293, guid: dadaa15a13b04b048a1654883e7ec1a5, type: 3}
-  health: 10
+  health: 25
   cooldown: 1

@@ -154,6 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332b48ce2e3fb02469b054739d48dd5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3998773420411463293, guid: dadaa15a13b04b048a1654883e7ec1a5, type: 3}
-  health: 10
+  bullet: {fileID: 3998773420411463293, guid: 20ce7db220813234eb01f419b1996917, type: 3}
+  health: 100
   cooldown: 3
